@@ -55,7 +55,7 @@ public class App {
 			return gson.toJson(accesslog.log);
 		}));
 
-		get("/accessdevice/log/{id}", ((request, response) -> {
+		get("/accessdevice/log/:id", ((request, response) -> {
 			Gson gson = new Gson();
 			return gson.toJson(accesslog.get(Integer.parseInt(request.params(":id"))));
 
