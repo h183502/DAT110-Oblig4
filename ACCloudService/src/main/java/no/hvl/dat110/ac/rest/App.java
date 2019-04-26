@@ -44,6 +44,40 @@ public class App {
 		});
 		
 		// TODO: implement the routes required for the access control service
+
+		get("/accessdevice/log/", ((request, response) -> accesslog.toJson()));;
+
+		post("/accessdevice/log/", ((request, response) -> {
+
+			Gson gson = new Gson();
+			AccessMessage msg = gson.fromJson(request.body(), AccessMessage.class);
+			accesslog.add(msg.getMessage());
+			return gson.toJson(accesslog.log);
+		}));
+
+		get("/accessdevice/log/{id}", ((request, response) -> {
+			Gson gson = new Gson();
+			return gson.toJson(accesslog.get(Integer.parseInt(request.params(":id"))));
+
+		}));
+
+		put("/accessdevice/code", ((request, response) -> {
+			Gson gson = new Gson();
+			accesscode = gson.fromJson(request.body(), AccessCode.class);
+			return gson.toJson(accesscode.getAccesscode());
+
+		}));
+
+		get("/accessdevice/code", ((request, response) -> {
+			Gson gson = new Gson();
+			return gson.toJson(accesscode.getAccesscode());
+		}));
+
+		delete("/accessdevice/log", ((request, response) -> {
+			accesslog.clear();
+			Gson gson = new Gson();
+			return gson.toJson("Log has been cleared");
+		}));
 		
     }
     
